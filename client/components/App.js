@@ -17,8 +17,8 @@ function App() {
   const toList = () => updateAppPage( appPage = 'toList' );
 
   // push elements to display
-  if (appPage === 'signup') toDisplay.push(<Signup />); //toLogin={toLogin}
-  if (appPage === 'login') toDisplay.push(<Login />); //toSignup={toSignup}
+  if (appPage === 'signup') toDisplay.push(<Signup toLogin={toLogin} />);
+  if (appPage === 'login') toDisplay.push(<Login toSignup={toSignup}/>);
   //if (appPage === 'in') toDisplay.push(<List />);
 
   // on load check the server to see if we are logged in by sending cookie
