@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 const salt_work_factor = 10;
 
+// find out how to make sure there are NO SPACES in these strings.
 const userSchema = new Schema({
   username: {type: String, required: true, unique: true},
   password: {type: String, required: true}
@@ -12,7 +13,7 @@ const userSchema = new Schema({
 
 // ADD A HASH FUNCTION HERE
 userSchema.pre('save', async function(next) {
-  // this.password = await bcrypt.hash(this.password, salt_work_factor);
+  this.password = await bcrypt.hash(this.password, salt_work_factor);
   return next();
 }); 
 
