@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // require in bcrypt here & add salt work factor
+const bcrypt = require('bcrypt');
 const salt_work_factor = 10;
 
 const userSchema = new Schema({

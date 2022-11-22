@@ -33,6 +33,15 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
+// SIGNUP
+app.post('/signup', (req, res)=>{
+  return res.status(200).json({message: 'signup success'});
+})
+
+// LOGIN
+app.post('/login', (req, res)=>{
+  return res.status(200).json({message: 'signup success'});
+})
 
 // display site
 // app.get('/', cookieController.setCookie, (req, res) => {
