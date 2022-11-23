@@ -5,6 +5,9 @@ import React, { useEffect, useState } from 'react';
 // other imports of other components will go ehre
 import Login from './Login.js';
 import Signup from './Signup.js';
+import List from './List.js';
+import Submit from './Submit.js';
+import axios from 'axios';
 
 function App() {
 
@@ -14,19 +17,26 @@ function App() {
 
   const toSignup = () => updateAppPage( appPage = 'signup' );
   const toLogin = () => updateAppPage( appPage = 'login' );
-  const toList = () => updateAppPage( appPage = 'toList' );
+  const toList = () => updateAppPage( appPage = 'list' );
+  const toServe = () => updateAppPage( appPage = 'serve' );
+  const toSubmit = () => updateAppPage( appPage = 'submit' );
+  const signedIn = () => {
+    //toSubmit();
+    toList();
+  }
+
 
   // push elements to display
-  if (appPage === 'signup') toDisplay.push(<Signup toLogin={toLogin} />);
-  if (appPage === 'login') toDisplay.push(<Login toSignup={toSignup}/>);
-  //if (appPage === 'in') toDisplay.push(<List />);
+  if (appPage === 'signup') toDisplay.push(<Signup toLogin={toLogin} signedIn={signedIn} />);
+  if (appPage === 'login') toDisplay.push(<Login toSignup={toSignup} signedIn={signedIn} />);
+  if (appPage === 'list') toDisplay.push(<List toSubmit={toSubmit} />);
+  if (appPage === 'submit') toDisplay.push(<Submit toList={toList} />);
+  //if (appPage === 'serve') toDisplay.push(<Serve />);
 
   // on load check the server to see if we are logged in by sending cookie
   useEffect(()=>{
-    // props.Test();
-    fetchSession((result)=>{
-      console.log('session fetched: ', result);
-    })
+    // check session and log in if still in one
+    fetchSession(() => signedIn()); 
   },[]);
 
   return (
@@ -37,37 +47,18 @@ function App() {
   
 }
 
-function fetchSession(callback) {
-  const url = "./login";
-  // fetch from login url
-  fetch(url, callback)
-  // once sucessful...
-  .then((response) => {
-    // if responce is sucessfull: i.e. 200-299 message
-    if (response.status >= 200 && response.status < 300) {
-      // parses the responce
-      const res = response.json();
-      console.log('FETCH SESSION RESPONCE: ', res);
-      return res;
-    } else {
-      throw new Error("STATUS FAIL: " + response.status);
+async function fetchSession(inSessionCallback) {
+  try {
+    const sessionRes = await axios.get('./session');
+    console.log('session res: ', sessionRes);
+    if (sessionRes.data.session) {
+      console.log('in session:', sessionRes.data, sessionRes.data.session);
+      return inSessionCallback();
     }
-  })
-  // if the responce is sucessfull...
-  .then((response) => {
-    // do something
-    return 'succes' + response;
-  })
-  // if error, log error
-  .catch((error) => {
-    console.warn(error);
-  });
-
-  // update state
-  // if login successful or session is in
-  //updateAppPage( appPage = 'in' );
-  // else go to signup page
-  return 'got here'
+  }
+  catch (err) {
+    console.warn(err);
+  }
 }
 
 export default App;

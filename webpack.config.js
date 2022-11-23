@@ -42,7 +42,46 @@ module.exports = {
       publicPath: './build'
     },
     proxy: {
-      '/api': 'http://localhost:3000',
+      '/signup': {
+        target: 'http://localhost:3000',
+        // secure: true,
+      },
+      '/login': {
+        target: 'http://localhost:3000',
+        // secure: true,
+      },
+      '/session': {
+        target: 'http://localhost:3000',
+        // secure: true,
+      },
+      '/recipes': {
+        target: 'http://localhost:3000',
+        // secure: true,
+      },
+      '/': {
+        target: 'http://localhost:3000',
+        // secure: true,
+      },
     },
   },
 };
+
+
+/*
+      '/signup': {
+        target: 'http://localhost:3000',
+        // secure: true,
+      },
+      '/login': {
+        target: 'http://localhost:3000',
+        // secure: true,
+      },
+      '/lession': {
+        target: 'http://localhost:3000',
+        // secure: true,
+      },
+      '/': {
+        target: 'http://localhost:3000',
+        // secure: true,
+      },
+*/

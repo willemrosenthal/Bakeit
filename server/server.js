@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+const cookieParser = require('cookie-parser');
 
 //ENV
 require('dotenv').config();
@@ -17,7 +18,12 @@ mongoose.connect(mongoURI)
 
 app.use(express.json());
 app.use(express.urlencoded());
-// app.use(cookieParser());
+app.use(cookieParser());
+
+// controllers
+const userController = require('./controllers/userController');
+const sessionController = require('./controllers/sessionController');
+const recipeController = require('./controllers/recipeController');
 
 // send static stuff
 app.use('/client', express.static(path.resolve(__dirname, '../client')));
@@ -34,13 +40,33 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // SIGNUP
-app.post('/signup', (req, res)=>{
+app.post('/signup', userController.createUser, sessionController.setSSIDCookie, sessionController.startSession, (req, res)=>{
+  console.log('successfully created user: ', req.body.username);
   return res.status(200).json({message: 'signup success'});
 })
 
 // LOGIN
-app.post('/login', (req, res)=>{
-  return res.status(200).json({message: 'signup success'});
+app.post('/login', userController.verifyUser, sessionController.setSSIDCookie, sessionController.startSession, (req, res)=>{
+  console.log('login success:', req.body);
+  return res.status(200).json({message: 'login success'});
+})
+
+// GET SESSION
+app.get('/session', sessionController.isLoggedIn, (req, res)=>{
+  console.log('session found', res.locals.inSession);
+  return res.status(200).json({session: res.locals.inSession});
+})
+
+// GET RECIPES
+app.get('/recipes', recipeController.getAllRecipes, (req, res)=>{
+  console.log('sending: ', res.locals.recipes.length, ' recipes');
+  return res.status(200).json({recipes: res.locals.recipes}); 
+})
+
+// POST RECIPES
+app.post('/recipes', userController.getCurrentUsername, recipeController.submitRecipe, (req, res)=>{
+  console.log('recipe submitted');
+  return res.status(200).json({accepted: true})
 })
 
 // display site
