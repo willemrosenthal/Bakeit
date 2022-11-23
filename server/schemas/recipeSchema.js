@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 
 const recipeSchema = new Schema({
   name: {type: String, required: true},
+  type: {type: String, required: true},
   ingrediants: [{
     type: String
   }],
@@ -13,10 +14,11 @@ const recipeSchema = new Schema({
   notes: [{
     type: String
   }],
+  creator: {type: String, required: true },
   up: {type: Number, defualt: 0},
   down: {type: Number, defualt: 0},
-  votes: {type: Number, defualt: 0},
-  creator: {type: String, required: true }
+  aggregate: {type: Number, defualt: 0},
+  votes: {type: Number, defualt: 0}
 });
 
 module.exports = mongoose.model('Recipe', recipeSchema);
