@@ -17,6 +17,9 @@ function Submit(props) {
   const [instructions, setInstructions] = useState([<AddedField fieldSection='instructions' id='0' removeField={removeField} hideX={true} />]);
   const [notes, setNotes] = useState([<AddedField fieldSection='notes' id='0' removeField={removeField} hideX={true} />]);
 
+  const [ing, setIng] = useState([{id:'0', value: '', hideX: true}]);
+  const [inst, setInst] = useState([{id:'0', value: '', hideX: true}]);
+  const [note, setNote] = useState([{id:'0', value: '', hideX: true}]);
 
   // const ingrediants = [<AddedField fieldSection='ingrediants' id='0' />];
   // const instructions = [<AddedField fieldSection='instructions' id='0' />];
@@ -31,24 +34,76 @@ function Submit(props) {
   //   });
   // },[])
   const addIngrediant = () => {
-    const newIngrediants = ingrediants.concat(<AddedField fieldSection='ingrediants' id={cID} removeField={removeField} />);
-    incrementCID();
-    setIngrediants(newIngrediants);
+    // const newIngrediants = ingrediants.concat(<AddedField fieldSection='ingrediants' id={cID} removeField={removeField} />);
+    // incrementCID();
+    // setIngrediants(newIngrediants);
+    const newList = ing.concat({hideX: false, value: ''})
+    setIng(newList)
   }
   const addInstruction = () => {
-    const newInstructions = instructions.concat(<AddedField fieldSection='instructions' id={cID} removeField={removeField} />);
-    incrementCID();
-    setInstructions(newInstructions);
+    // const newInstructions = instructions.concat(<AddedField fieldSection='instructions' id={cID} removeField={removeField} />);
+    // incrementCID();
+    // setInstructions(newInstructions);
+    const newList = inst.concat({hideX: false, value: ''})
+    setInst(newList)
   }
   const addNote = () => {
-    const newNotes = notes.concat(<AddedField fieldSection='notes' id={cID} removeField={removeField} />);
-    incrementCID();
-    setNotes(newNotes);
+    // const newNotes = notes.concat(<AddedField fieldSection='notes' id={cID} removeField={removeField} />);
+    // incrementCID();
+    // setNotes(newNotes);
+    const newList = note.concat({hideX: false, value: ''})
+    setNote(newList)
   }
 
-  function removeField(id, field) {
+  function updateFieldVal(id, field, value) {
+    console.log('update:', id, field, value);
+    if (field === 'ingrediants') {
+      const newList = [...ing];
+      newList[id].value = value;
+      setIng(newList);
+    }
+    else if (field === 'instructions') {
+      const newList = [...inst];
+      newList[id].value = value;
+      setInst(newList);
+    }
+    else if (field === 'notes') {
+      const newList = [...note];
+      newList[id].value = value;
+      setNote(newList);
+    }
+  }
+
+  function removeField(id, field, value) {
     let workingList = [];
 
+    console.log('val',value);
+
+    const newList = [];
+
+    if (field === 'ingrediants') {
+      for (let i = 0; i < ing.length; i++) {
+        if (i !== id) newList.push(ing[i]);
+      }
+      setIng(newList);
+      return;
+    }
+
+    if (field === 'instructions') {
+      for (let i = 0; i < inst.length; i++) {
+        if (i !== id) newList.push(inst[i]);
+      }
+      setInst(newList);
+      return;
+    }
+
+    if (field === 'notes') {
+      for (let i = 0; i < note.length; i++) {
+        if (i !== id) newList.push(note[i]);
+      }
+      setNote(newList);
+      return;
+    }
   
 
     // const newList = [];
@@ -61,23 +116,23 @@ function Submit(props) {
     // }
 
     
-    if (field === 'ingrediants') {
-      if (ingrediants.length === 0) return;
-      console.log('initial num', ingrediants.length);
-      const newIngrediants = ingrediants.splice(0,ingrediants.length);
-      console.log('remaining num', newIngrediants.length);
-      setIngrediants(newIngrediants);
-    }
-    else if (field === 'instructions') {
-      if (instructions.length === 0) return;
-      const newInstructions = instructions.splice(0,instructions.length);
-      setInstructions(newInstructions);
-    }
-    else if (field === 'notes') {
-      if (notes.length === 0) return;
-      const newNotes = notes.splice(0,notes.length);
-      setNotes(newNotes);
-    }
+    // if (field === 'ingrediants') {
+    //   if (ingrediants.length === 0) return;
+    //   console.log('initial num', ingrediants.length);
+    //   const newIngrediants = ingrediants.splice(0,ingrediants.length);
+    //   console.log('remaining num', newIngrediants.length);
+    //   setIngrediants(newIngrediants);
+    // }
+    // else if (field === 'instructions') {
+    //   if (instructions.length === 0) return;
+    //   const newInstructions = instructions.splice(0,instructions.length);
+    //   setInstructions(newInstructions);
+    // }
+    // else if (field === 'notes') {
+    //   if (notes.length === 0) return;
+    //   const newNotes = notes.splice(0,notes.length);
+    //   setNotes(newNotes);
+    // }
   }
 
 
@@ -125,6 +180,7 @@ function Submit(props) {
     }
   }
 
+  const data =[{"name":"test1"},{"name":"test2"}];
 
   return (
     <div id='submitRecipe'>
@@ -149,21 +205,49 @@ function Submit(props) {
         </select><br></br><br></br>
 
         ingrediants<br></br>
-        {[ingrediants]}
+        {/* {[ingrediants]} */}
+
+        {/* {
+          data.map(function(d, idx) {
+            return (<li key={idx}>{d.name}</li>)
+          })
+        } */}
+
+        <ul>
+        {
+          ing.map(function(d, idx) {
+            return (<li key={idx}><AddedField id={idx} updateFieldVal={updateFieldVal} fieldSection='ingrediants' filedValue={d.value} removeField={removeField} hideX={d.hideX}/></li>)
+          })
+        }
+        </ul>
+
         <button type="button" onClick={addIngrediant}>ADD</button><br></br><br></br>
 
+
         instructions<br></br>
-        {[instructions]}
+        <ol>
+        {
+          inst.map(function(d, idx) {
+            return (<li key={idx}><AddedField id={idx} updateFieldVal={updateFieldVal} fieldSection='instructions' filedValue={d.value} removeField={removeField} hideX={d.hideX}/></li>)
+          })
+        }
+        </ol>
         <button type="button" onClick={addInstruction}>ADD</button><br></br><br></br>
 
         notes<br></br>
-        {[notes]}
+        <ol>
+        {
+          note.map(function(d, idx) {
+            return (<li key={idx}><AddedField id={idx} updateFieldVal={updateFieldVal} fieldSection='notes' filedValue={d.value} removeField={removeField} hideX={d.hideX}/></li>)
+          })
+        }
+        </ol>
         <button type="button" onClick={addNote}>ADD</button><br></br><br></br>
 
         {err}<br></br>
-        <input type="submit" value="SUBMIT" ></input>
+        <input type="submit" id='submitRecipeButton' value="SUBMIT" ></input>
       </form>
-      <Nav />
+      <Nav toSubmit={props.toSubmit} toList={props.toList} toFav={props.toFav} toFriends={props.toFriends} />
     </div>
   );
 }

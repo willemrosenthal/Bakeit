@@ -95,6 +95,7 @@ button {
 
 /* ADD RECIPE */
 #submitRecipe {
+  margin-top: 10%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -102,6 +103,12 @@ button {
 }
 #submitRecipe select {
   font-size: 150%;
+}
+#submitRecipe input {
+  display: flex;
+  padding: 4%;
+  box-shadow: none;
+  border: none;
 }
 .addedFieldContainer {
   display: flex;
@@ -118,6 +125,23 @@ button {
 .addedField {
   display: flex;
   padding: 4%;
+}
+ol {
+  margin: 0;
+  padding-left: 0%;
+  margin-left: -0.33em;
+}
+ul {
+  margin: 0;
+  padding-left: 0%;
+  margin-left: -0.33em;
+}
+#submitRecipeButton {
+  width: 100%;
+  text-align: center;
+  align-items: center;
+  align-content: center;
+  flex-direction: column;
 }
 
 // <div class='card'> 

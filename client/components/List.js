@@ -30,7 +30,7 @@ function List(props) {
   return (
     <div id='list'>
       {allRecipes}
-      <Nav toSubmit={props.toSubmit} />
+      <Nav toSubmit={props.toSubmit} toList={props.toList} toFav={props.toFav} toFriends={props.toFriends} />
     </div>
   );
 }
