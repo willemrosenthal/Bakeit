@@ -22,7 +22,7 @@ recipeController.getAllRecipes = async (req, res, next) => {
   return next();
 }
 
-// check if logged in by looking at cookie
+// chooses a recipe to serve
 recipeController.serveRecipe = async (req, res, next) => {
   try {
     const topChoices = await Recipe.find().sort({'votes':1}).limit(2);
@@ -45,6 +45,33 @@ recipeController.serveRecipe = async (req, res, next) => {
   }
 }
 
+recipeController.vote = async (req, res, next) => {
+  try {
+    console.log('req id:', req.params.id);
+    console.log('to update', req.body);
+
+    const update = { 
+      up: req.body.up,
+      down: req.body.down,
+      aggregate: req.body.aggregate,
+      votes: req.body.votes,
+    };
+
+    const result = await Recipe.findByIdAndUpdate(req.params.id, update);
+
+    console.log('updated recipe to:', update, ' prev:', result);
+    return next();
+  }
+  catch {
+    next({
+      log: 'error: recipeController.vote',
+      status: 500,
+      message: {err: 'error in recipeController.vote'}
+    })
+  }
+}
+
+// gets a single recipe by id
 recipeController.getRecipe = async (req, res, next) => {
   try {
     console.log('req id:', req.params.id)

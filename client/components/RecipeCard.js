@@ -10,7 +10,7 @@ function RecipeCard(props) {
   const typeIcon = props.recipeType ? props.recipeType : '0x1F60A';
 
   return (
-    <div className='card'> 
+    <div className='card' onClick={()=>{props.viewRecipe(props.id); props.toView()}}> 
       <div className='cardInfo'>
         <div className='rType'><Emoji symbol={typeIcon} /></div>
         <div className='rName'>{props.name}</div>

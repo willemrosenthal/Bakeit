@@ -58,10 +58,15 @@ app.get('/session', sessionController.isLoggedIn, (req, res)=>{
 })
 
 // GET SINGLE RECIPE
-// GET RECIPES
 app.get('/recipes/:id', recipeController.getRecipe, (req, res)=>{
   console.log('sending single: ', res.locals.recipe.name);
   return res.status(200).json({recipes: res.locals.recipe}); 
+})
+
+// UPDATE VOTES ON SINGLE RECIPE
+app.post('/recipes/:id', recipeController.vote, (req, res)=>{
+  console.log('vote accepted:');
+  return res.status(200).json({accepted: true}); 
 })
 
 // GET RECIPES

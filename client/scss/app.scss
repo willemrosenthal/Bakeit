@@ -15,6 +15,10 @@ button {
   font-size: 4vw;
 }
 
+h1 {
+  font-size: 5vw;
+}
+
 .loginSignup {
   margin-top: 20%;
 }
@@ -157,6 +161,46 @@ ul {
   color: white;
   margin-bottom:1vw;
 }
+
+
+
+/* VIEW */
+.recipeTitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.titleContainer {
+  position: relative;
+}
+.recipeType {
+  left: -7vw;
+  position: absolute;
+  font-size: 5vw;
+  top: 50%;
+  transform: translateX(-50%);
+  transform: translateY(-50%);
+}
+
+/* VOTE */
+.vote {
+  background: $voteBg;
+  padding: 2vw 0 5vw 0;
+  bottom: 0;
+  position: absolute;
+  width: 100%;
+}
+.voteBtn {
+  display: inline-block;
+  margin: 0 10vw;
+}
+.voteBtn:hover {
+  background-color: aliceblue;
+}
+
+
 
 // <div class='card'> 
 // <div className='rType'>TYPE</div>

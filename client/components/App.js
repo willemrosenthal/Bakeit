@@ -15,6 +15,7 @@ function App() {
   // logic to determine what to show!
   const toDisplay = []
   let [appPage, updateAppPage] = useState('login');
+  const [viewRecipeId, updateViewRecipeId] = useState('');
 
   const toSignup = () => updateAppPage( appPage = 'signup' );
   const toLogin = () => updateAppPage( appPage = 'login' );
@@ -24,17 +25,17 @@ function App() {
   const toSubmit = () => updateAppPage( appPage = 'submit' );
   const signedIn = () => {
     //toSubmit();
-    //toList();
-    toView();
+    toList();
+    //toView();
   }
 
 
   // push elements to display
   if (appPage === 'signup') toDisplay.push(<Signup toLogin={toLogin} signedIn={signedIn} />);
   if (appPage === 'login') toDisplay.push(<Login toSignup={toSignup} signedIn={signedIn} />);
-  if (appPage === 'list') toDisplay.push(<List toSubmit={toSubmit} />);
+  if (appPage === 'list') toDisplay.push(<List toSubmit={toSubmit} toView={toView} viewRecipe={updateViewRecipeId} />);
   if (appPage === 'submit') toDisplay.push(<Submit toList={toList} />);
-  if (appPage === 'view') toDisplay.push(<View recipeId='637e3e39bfa243144719e402' />);
+  if (appPage === 'view') toDisplay.push(<View recipeId={viewRecipeId} toList={toList} />);
   //if (appPage === 'serve') toDisplay.push(<Serve />);
 
   // on load check the server to see if we are logged in by sending cookie

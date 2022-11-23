@@ -9,7 +9,6 @@ function Submit(props) {
   const [makingRequest, setMakingRequest] = useState(false);
   const [recipes, updateRecipes] = useState([]);
   const [err, setErr] = useState('');
-  const [cID, setCID] = useState(0);
 
   // ingrediants, instructions, notes
   const [ingrediants, setIng] = useState([{id:'0', value: '', hideX: true}]);
@@ -99,7 +98,6 @@ function Submit(props) {
       if (element.name === 'notes') recipeToSend.notes.push( element.value );
     })
 
-    console.log('!!!!!',recipeToSend.ingrediants[0],"!!!!!");
     // handle errors for missing fields
     if (!recipeToSend.name) {
       setErr('please name your recipe');

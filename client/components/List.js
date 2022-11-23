@@ -14,7 +14,7 @@ function List(props) {
   if (allRecipes.length !== 0) allRecipes = [];
   for (const r of recipes) {
     allRecipes.push(
-      <RecipeCard name={r.name} up={r.up} down={r.down} recipeType={r.type} />
+      <RecipeCard name={r.name} up={r.up} down={r.down} recipeType={r.type} id={r._id} toView={props.toView} viewRecipe={props.viewRecipe} />
     );
   }
 
