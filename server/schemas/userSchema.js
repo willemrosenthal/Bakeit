@@ -8,7 +8,8 @@ const salt_work_factor = 10;
 // find out how to make sure there are NO SPACES in these strings.
 const userSchema = new Schema({
   username: {type: String, required: true, unique: true},
-  password: {type: String, required: true}
+  password: {type: String, required: true},
+  served:   {type: Boolean, default: false}
 });
 
 // ADD A HASH FUNCTION HERE

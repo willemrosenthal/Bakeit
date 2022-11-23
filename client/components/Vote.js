@@ -24,7 +24,8 @@ function Vote(props) {
       up: dir > 0 ? props.up + 1 : props.up,
       down: dir < 0 ? props.down + 1 : props.down,
       aggregate: dir > 0 ? props.aggregate + 1 : props.aggregate -1,
-      votes: props.votes + 1
+      votes: props.votes + 1,
+      served: true
     }
 
     console.log('sending vote:', v);
@@ -44,6 +45,7 @@ function Vote(props) {
       setErr(err.message);
     } finally {
       setMakingRequest(false);
+      props.toList();
     }
   }
 

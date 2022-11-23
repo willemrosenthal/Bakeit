@@ -88,7 +88,8 @@ function Submit(props) {
       type: event.target.type.value,
       ingrediants: [],
       instructions: [],
-      notes: []
+      notes: [],
+      served: false
     }
 
     // pull out elements from form for ingrediants, instcutions, notes
@@ -158,7 +159,7 @@ function Submit(props) {
           <option value="0x1F950">🥐</option>
         </select><br></br><br></br>
 
-        ingrediants<br></br>
+        ingredients<br></br>
         <ul>
         {
           ingrediants.map(function(d, idx) {

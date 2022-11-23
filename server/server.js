@@ -52,10 +52,11 @@ app.post('/login', userController.verifyUser, sessionController.setSSIDCookie, s
 })
 
 // GET SESSION
-app.get('/session', sessionController.isLoggedIn, (req, res)=>{
-  console.log('session found', res.locals.inSession);
-  return res.status(200).json({session: res.locals.inSession});
+app.get('/session', sessionController.isLoggedIn, userController.checkServed, (req, res)=>{
+  console.log('session found', res.locals.inSession, ' user served:', res.locals.served );
+  return res.status(200).json({session: res.locals.inSession, served: res.locals.served});
 })
+
 
 // GET SINGLE RECIPE
 app.get('/recipes/:id', recipeController.getRecipe, (req, res)=>{
@@ -63,10 +64,16 @@ app.get('/recipes/:id', recipeController.getRecipe, (req, res)=>{
   return res.status(200).json({recipes: res.locals.recipe}); 
 })
 
-// UPDATE VOTES ON SINGLE RECIPE
-app.post('/recipes/:id', recipeController.vote, (req, res)=>{
+// VOTES ON SINGLE RECIPE
+app.post('/recipes/:id', recipeController.vote, userController.updateServed, (req, res)=>{
   console.log('vote accepted:');
   return res.status(200).json({accepted: true}); 
+})
+
+// GET RECIPE TO SERVE
+app.get('/serve', recipeController.serveRecipe, (req, res)=>{ // 
+  console.log('serving:', res.locals.serve);
+  return res.status(200).json(res.locals.serve); 
 })
 
 // GET RECIPES
@@ -76,7 +83,7 @@ app.get('/recipes', recipeController.getAllRecipes, (req, res)=>{
 })
 
 // POST RECIPES
-app.post('/recipes', userController.getCurrentUsername, recipeController.submitRecipe, (req, res)=>{
+app.post('/recipes', userController.getCurrentUsername, recipeController.submitRecipe, userController.updateServed, (req, res)=>{
   console.log('recipe submitted');
   return res.status(200).json({accepted: true})
 })

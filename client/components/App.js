@@ -9,6 +9,7 @@ import Signup from './Signup.js';
 import List from './List.js';
 import Submit from './Submit.js';
 import View from './View.js';
+import Serve from './Serve.js';
 
 function App() {
 
@@ -23,10 +24,14 @@ function App() {
   const toServe = () => updateAppPage( appPage = 'serve' );
   const toView = () => updateAppPage( appPage = 'view' );
   const toSubmit = () => updateAppPage( appPage = 'submit' );
-  const signedIn = () => {
+  const signedIn = (served) => {
+    console.log(served)
+    if (!served) toServe();
+    else toList();
     //toSubmit();
-    toList();
+    //toList();
     //toView();
+    
   }
 
 
@@ -36,12 +41,16 @@ function App() {
   if (appPage === 'list') toDisplay.push(<List toSubmit={toSubmit} toView={toView} viewRecipe={updateViewRecipeId} />);
   if (appPage === 'submit') toDisplay.push(<Submit toList={toList} />);
   if (appPage === 'view') toDisplay.push(<View recipeId={viewRecipeId} toList={toList} />);
+  if (appPage === 'serve') toDisplay.push(<Serve viewRecipe={updateViewRecipeId} toList={toList} />);
   //if (appPage === 'serve') toDisplay.push(<Serve />);
 
   // on load check the server to see if we are logged in by sending cookie
   useEffect(()=>{
     // check session and log in if still in one
-    fetchSession(() => signedIn()); 
+    fetchSession((responce) => {
+      console.log('res', responce);
+      signedIn(responce.served)}
+    ); 
   },[]);
 
   return (
@@ -58,7 +67,7 @@ async function fetchSession(inSessionCallback) {
     console.log('session res: ', sessionRes);
     if (sessionRes.data.session) {
       console.log('in session:', sessionRes.data, sessionRes.data.session);
-      return inSessionCallback();
+      return inSessionCallback(sessionRes.data);
     }
   }
   catch (err) {

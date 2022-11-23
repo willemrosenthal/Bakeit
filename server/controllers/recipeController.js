@@ -8,7 +8,7 @@ recipeController.getAllRecipes = async (req, res, next) => {
   // create cookie with the user's ID
   try {
     // finds all recipes, sroting them by upvotes and downvotes
-    const all = await Recipe.find().sort( { "up": 1, "down": -1}); // maybe sort by aggregate instead?
+    const all = await Recipe.find().sort( { "aggregate": -1, 'votes': -1}); // maybe sort by aggregate instead?
     console.log('all recipes found:', all);
     res.locals.recipes = all;
   }
@@ -24,8 +24,10 @@ recipeController.getAllRecipes = async (req, res, next) => {
 
 // chooses a recipe to serve
 recipeController.serveRecipe = async (req, res, next) => {
+  console.log('trying to find a recipe to serve...')
   try {
-    const topChoices = await Recipe.find().sort({'votes':1}).limit(2);
+    // only gets the 3 least raited recipies.. this should be more dynamic
+    const topChoices = await Recipe.find().sort({'votes':1}).limit(3);
     if (topChoices.length > 0) {
       // choose one at random from this list
       res.locals.serve = topChoices[Math.floor(Math.random() * topChoices.length)];

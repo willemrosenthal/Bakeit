@@ -16,7 +16,7 @@ button {
 }
 
 h1 {
-  font-size: 5vw;
+  font-size: 8vw;
 }
 
 .loginSignup {
@@ -82,20 +82,22 @@ h1 {
 }
 .votes {
   position: absolute;
-  bottom: 5%;
-  right: 2%;
+  bottom: 7%;
+  right: 5%;
   display: flex;
   width: 5%;
+  align-items: center;
 }
 .arr {
   width: 80%;
   aspect-ratio: 1 / 1;
+  margin-right: 1vw;
 }
 .upArr {
-  background-color: aqua;
+  color: aqua;
 }
 .downArr {
-  background-color: red;
+  color: red;
 }
 
 /* ADD RECIPE */
@@ -165,23 +167,43 @@ ul {
 
 
 /* VIEW */
+.recipeView {
+  margin-bottom: 25%;
+  background: $voteBg;
+  text-align: left;
+  width: 80%;
+  padding-left: 20%;
+  padding-bottom: 20%;
+}
 .recipeTitle {
+  background: $voteBg;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   position: relative;
+  padding-left: 20%;
 }
 .titleContainer {
-  position: relative;
+  //position: relative;
 }
 .recipeType {
-  left: -7vw;
+  right: 4%;
   position: absolute;
-  font-size: 5vw;
+  font-size: 10vw;
   top: 50%;
   transform: translateX(-50%);
   transform: translateY(-50%);
+}
+#view ul {
+  margin-left: 4vw;
+  display: inline-block;
+  text-align: left;
+}
+#view ol {
+  margin-left: 4vw;
+  display: inline-block;
+  text-align: left;
 }
 
 /* VOTE */
@@ -200,6 +222,22 @@ ul {
   background-color: aliceblue;
 }
 
+/* SERVE */
+.serve {
+  padding: 5vw;
+  //border: 2vw solid red;
+    background: repeating-linear-gradient(
+    45deg,
+    #d4b65d,
+    #d4b65d 10px,
+    #c66249 10px,
+    #c66249 20px
+  );
+  position:static;
+}
+.serveContainer {
+  position: relative;
+}
 
 
 // <div class='card'> 

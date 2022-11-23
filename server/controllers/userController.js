@@ -10,7 +10,7 @@ userController.createUser = async (req, res, next) => {
   // maybe first try to see if user already exists? If so return an error we can do something with!
 
   try {
-    await User.create({username: req.body.username, password: req.body.password })
+    await User.create({username: req.body.username, password: req.body.password, served: false })
     return next();
   }
   catch (err) {
@@ -43,6 +43,56 @@ userController.getCurrentUsername = async (req, res, next) => {
       log: 'USERNAME CANT BE FOUND! userController.getCurrentUsername',
       status: 400,
       message: { err: err }
+    })
+  }
+}
+
+// check user served
+userController.checkServed = async (req, res, next) => {
+  try {
+    const id = req.cookies.ssid;
+    const myUsername = await User.findById(id);
+    res.locals.served = myUsername.served;
+
+    console.log('served:', myUsername.served);
+
+    // if user isn't found
+    if (myUsername === null) {
+      throw 'USERNAME CANT BE FOUND! userController.checkServed';
+    }
+
+    return next();
+  }
+  catch (err) {
+    next({
+      log: 'USERNAME CANT BE FOUND! userController.checkServed',
+      status: 400,
+      message: { err: err }
+    })
+  }
+}
+
+// update served
+userController.updateServed = async (req, res, next) => {
+  try {
+    const id = req.cookies.ssid;
+    console.log('user id:', id);
+    console.log('update served to:', req.body.served);
+
+    const update = { 
+      served: req.body.served,
+    };
+
+    const result = await User.findByIdAndUpdate(id, update);
+
+    console.log('updated user served to:', update.served, ' prev:', result);
+    return next();
+  }
+  catch {
+    next({
+      log: 'error: userController.updateServed',
+      status: 500,
+      message: {err: 'error in userController.updateServed'}
     })
   }
 }
