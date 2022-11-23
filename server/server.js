@@ -57,6 +57,13 @@ app.get('/session', sessionController.isLoggedIn, (req, res)=>{
   return res.status(200).json({session: res.locals.inSession});
 })
 
+// GET SINGLE RECIPE
+// GET RECIPES
+app.get('/recipes/:id', recipeController.getRecipe, (req, res)=>{
+  console.log('sending single: ', res.locals.recipe.name);
+  return res.status(200).json({recipes: res.locals.recipe}); 
+})
+
 // GET RECIPES
 app.get('/recipes', recipeController.getAllRecipes, (req, res)=>{
   console.log('sending: ', res.locals.recipes.length, ' recipes');

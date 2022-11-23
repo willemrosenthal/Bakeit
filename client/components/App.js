@@ -1,5 +1,6 @@
 // import hooks and react
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 
 // other imports of other components will go ehre
@@ -7,7 +8,7 @@ import Login from './Login.js';
 import Signup from './Signup.js';
 import List from './List.js';
 import Submit from './Submit.js';
-import axios from 'axios';
+import View from './View.js';
 
 function App() {
 
@@ -19,10 +20,12 @@ function App() {
   const toLogin = () => updateAppPage( appPage = 'login' );
   const toList = () => updateAppPage( appPage = 'list' );
   const toServe = () => updateAppPage( appPage = 'serve' );
+  const toView = () => updateAppPage( appPage = 'view' );
   const toSubmit = () => updateAppPage( appPage = 'submit' );
   const signedIn = () => {
     //toSubmit();
-    toList();
+    //toList();
+    toView();
   }
 
 
@@ -31,6 +34,7 @@ function App() {
   if (appPage === 'login') toDisplay.push(<Login toSignup={toSignup} signedIn={signedIn} />);
   if (appPage === 'list') toDisplay.push(<List toSubmit={toSubmit} />);
   if (appPage === 'submit') toDisplay.push(<Submit toList={toList} />);
+  if (appPage === 'view') toDisplay.push(<View recipeId='637e3e39bfa243144719e402' />);
   //if (appPage === 'serve') toDisplay.push(<Serve />);
 
   // on load check the server to see if we are logged in by sending cookie

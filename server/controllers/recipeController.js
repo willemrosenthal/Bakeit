@@ -45,6 +45,25 @@ recipeController.serveRecipe = async (req, res, next) => {
   }
 }
 
+recipeController.getRecipe = async (req, res, next) => {
+  try {
+    console.log('req id:', req.params.id)
+
+    const recipe = await Recipe.findById(req.params.id);
+    res.locals.recipe = recipe;
+
+    console.log('found recipe:', recipe);
+    return next();
+  }
+  catch {
+    next({
+      log: 'error: recipeController.serveRecipe',
+      status: 500,
+      message: {err: 'error in recipeController.serveRecipe'}
+    })
+  }
+}
+
 // check if logged in by looking at cookie
 recipeController.submitRecipe = async (req, res, next) => {
   const r = req.body;
