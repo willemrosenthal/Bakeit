@@ -17,6 +17,7 @@ function App() {
   const toDisplay = []
   let [appPage, updateAppPage] = useState('login');
   const [viewRecipeId, updateViewRecipeId] = useState('');
+  const [userID, setUserID] = useState('');
 
   const toSignup = () => updateAppPage( appPage = 'signup' );
   const toLogin = () => updateAppPage( appPage = 'login' );
@@ -25,7 +26,7 @@ function App() {
   const toView = () => updateAppPage( appPage = 'view' );
   const toSubmit = () => updateAppPage( appPage = 'submit' );
   const signedIn = (served) => {
-    console.log(served)
+    console.log('SERVED:', served)
     if (!served) toServe();
     else toList();
     //toSubmit();
@@ -36,11 +37,11 @@ function App() {
 
 
   // push elements to display
-  if (appPage === 'signup') toDisplay.push(<Signup toLogin={toLogin} signedIn={signedIn} />);
-  if (appPage === 'login') toDisplay.push(<Login toSignup={toSignup} signedIn={signedIn} />);
+  if (appPage === 'signup') toDisplay.push(<Signup toLogin={toLogin} signedIn={signedIn} setUserID={setUserID} />);
+  if (appPage === 'login') toDisplay.push(<Login toSignup={toSignup} signedIn={signedIn} setUserID={setUserID}  />);
   if (appPage === 'list') toDisplay.push(<List toSubmit={toSubmit} toView={toView} viewRecipe={updateViewRecipeId} />);
   if (appPage === 'submit') toDisplay.push(<Submit toList={toList} />);
-  if (appPage === 'view') toDisplay.push(<View recipeId={viewRecipeId} toList={toList} />);
+  if (appPage === 'view') toDisplay.push(<View recipeId={viewRecipeId} toList={toList} userID={userID} />);
   if (appPage === 'serve') toDisplay.push(<Serve viewRecipe={updateViewRecipeId} toList={toList} />);
   //if (appPage === 'serve') toDisplay.push(<Serve />);
 
@@ -49,6 +50,7 @@ function App() {
     // check session and log in if still in one
     fetchSession((responce) => {
       console.log('res', responce);
+      setUserID(responce.userID);
       signedIn(responce.served)}
     ); 
   },[]);

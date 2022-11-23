@@ -24,13 +24,15 @@ function Login(props) {
       // prepare axios post
       const {data} = await axios.post('/login', login, { headers: {'Content-Type': 'application/json', Accept: 'application/json',} } );
       // the data to send
-      console.log('login responce:', JSON.stringify(data));  
+      console.log('login responce:', data);  
       if (data.wrong) {
         setErr('wrong username or password');
       }
       else {
         // sign you in
-        props.signedIn();
+        console.log('USER ID FROM SIGNIN:', data.userID);
+        props.setUserID( data.userID )
+        props.signedIn(data.served);
       }
     } catch (err) {
       setErr(err.message);
@@ -46,7 +48,7 @@ function Login(props) {
         {err}<br></br>
         <input name="username" type="text" placeholder="username"></input><br></br>
         <input name="password" type="password" placeholder="password"></input><br></br>
-        <input type='submit' value="login"></input>
+        <input className='authButton' type='submit' value="login"></input>
       </form>
       <button name="signup" type="submit" onClick={props.toSignup} >SIGN UP</button>
     </div>

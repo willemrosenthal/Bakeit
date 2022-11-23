@@ -14,11 +14,17 @@ function View(props) {
   ];
 
   let voteBox = [
-    <Vote recipeId={props.recipeId} up={recipeData.up} down={recipeData.down} aggregate={recipeData.aggregate} votes={recipeData.votes} />
+    <Vote recipeId={props.recipeId} up={recipeData.up} down={recipeData.down} aggregate={recipeData.aggregate} votes={recipeData.votes} toList={props.toList} />
+  ]
+
+  let deleteOption = [
+    <div className='delteBtn' onClick={deleteRecipe}>DELETE</div>,
   ]
 
   if (props.noExit) exitBtn = [];
   if (props.noVote) voteBox = [];
+  if (props.noExit || otherUserSubmitted()) deleteOption = [];
+  
 
   // only on load
   useEffect(()=>{
@@ -27,6 +33,25 @@ function View(props) {
       updateRecipe(data.recipes);
     });
   },[])
+
+  function otherUserSubmitted() {
+    console.log('comparing saved user id:', props.userID, ' and creatorID', recipeData.creatorID);
+    if (props.userID && (props.userID === recipeData.creatorID || !recipeData.creatorID)) return false;
+    return true;
+  }
+
+  async function deleteRecipe() {
+    console.log('deleting recipe')
+    try {
+      console.log('try to connnect.')
+      const result = await axios.delete('./delete/' + props.recipeId);
+      console.log('result of deleting', result);
+      props.toList();
+    }
+    catch (err) {
+      console.warn(err);
+    }
+  }
 
   return (
     <div id='view'>
@@ -72,6 +97,9 @@ function View(props) {
         </ol>
 
         <br></br>
+        {deleteOption}
+        <br></br>
+
       </div>
       {voteBox}
     </div>

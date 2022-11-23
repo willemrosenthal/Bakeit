@@ -93,6 +93,25 @@ recipeController.getRecipe = async (req, res, next) => {
   }
 }
 
+// delete recipe
+recipeController.deleteRecipe = async (req, res, next) => {
+  console.log('TRY DELETE');
+  try {
+    console.log('delete resipe by id:', req.params.id)
+
+    const deletedRecipe = await Recipe.findByIdAndDelete(req.params.id);
+    res.locals.recipe = deletedRecipe;
+    return next();
+  }
+  catch (err) {
+    next({
+      log: 'error: recipeController.deleteRecip',
+      status: 500,
+      message: {err: 'error in recipeController.deleteRecip'}
+    })   
+  }
+}
+
 // check if logged in by looking at cookie
 recipeController.submitRecipe = async (req, res, next) => {
   const r = req.body;
@@ -106,6 +125,7 @@ recipeController.submitRecipe = async (req, res, next) => {
       instructions: req.body.instructions,
       notes: req.body.notes,
       creator: res.locals.username,
+      creatorID: req.cookies.ssid,
       up: 0,
       down: 0,
       aggregate: 0,

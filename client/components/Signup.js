@@ -61,7 +61,9 @@ function Signup(props) {
       console.log(JSON.stringify(data, null, 4));
 
       // sign you in
-      props.signedIn();
+      console.log('USER ID FROM SIGNIN:', data.userID);
+      props.setUserID( data.userID )
+      props.signedIn(false);
       
     } catch (err) {
       // error message
@@ -81,8 +83,8 @@ function Signup(props) {
         SIGNUP<br></br>
         {err}<br></br>
         <input name="username" type="text" placeholder="username" onChange={event => setName(event.target.value)}></input><br></br>
-        <input name="password" type="password" onChange={event => setPass(event.target.value)}></input><br></br>
-        <input type="submit" value="create user" ></input>
+        <input name="password" type="password" placeholder="password" onChange={event => setPass(event.target.value)}></input><br></br>
+        <input className='authButton' type="submit" value="create user" ></input>
       </form>
       <button name="signup" type="submit" onClick={props.toLogin} >LOG IN</button>
     </div>

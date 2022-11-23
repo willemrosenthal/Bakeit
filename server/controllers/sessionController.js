@@ -12,6 +12,7 @@ sessionController.setSSIDCookie = async (req, res, next) => {
     console.log('user ID:', id);
     res.cookie('ssid', id, {httpOnly: true, overwrite: true});
     // save in locals for startSession method
+    console.log('session cookie created');
     res.locals.ssid = id;
     return next();
   }
@@ -45,11 +46,15 @@ sessionController.isLoggedIn = async (req, res, next) => {
 sessionController.startSession = async (req, res, next) => {
   // see if session is in the db
   try {
+
+    console.log('check for session...');
     const checkForSession = await Session.findOne({cookieId: res.locals.ssid});
     if (checkForSession) {
+      console.log('session found: deleting it to start a new one.');
       // update session if its found, delete it so we can make a new one
       await Session.findOneAndDelete({cookieId: res.locals.ssid});
     } 
+    console.log('new session created');
     // only create a new session if we don't have one arleady
     await Session.create({cookieId: res.locals.ssid});
   }

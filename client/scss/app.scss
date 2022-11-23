@@ -9,6 +9,11 @@ body {
 input {
   height: 2%;
   font-size: 4vw;
+  display: flex;
+  padding: 4%;
+  box-shadow: none;
+  border: none;
+  width: 70vw;
 }
 button {
   height: 2%;
@@ -19,8 +24,18 @@ h1 {
   font-size: 8vw;
 }
 
+/* login */
 .loginSignup {
   margin-top: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.authButton {
+  width: 50vw;
+  justify-content: center;
+  margin: auto;
+  border-radius: 2vw;
 }
 
 /* NAV */
@@ -94,10 +109,10 @@ h1 {
   margin-right: 1vw;
 }
 .upArr {
-  color: aqua;
+  color: $upColor
 }
 .downArr {
-  color: red;
+  color: $downColor
 }
 
 /* ADD RECIPE */
@@ -187,6 +202,11 @@ ul {
 .titleContainer {
   //position: relative;
 }
+.exitView {
+  position: absolute;
+  top: 3vw;
+  left: 5vw;
+}
 .recipeType {
   right: 4%;
   position: absolute;
@@ -205,6 +225,14 @@ ul {
   display: inline-block;
   text-align: left;
 }
+.delteBtn {
+  background-color: rgba(250, 235, 215, 0.249);
+  padding: 1vw 2vw;
+  margin-top: 7vw;
+  display: inline-block;
+  border-radius: 2vw;
+  font-size: 2vw;
+}
 
 /* VOTE */
 .vote {
@@ -217,10 +245,17 @@ ul {
 .voteBtn {
   display: inline-block;
   margin: 0 10vw;
+  font-size: 150%;
 }
-.voteBtn:hover {
-  background-color: aliceblue;
+.downvote:hover {
+  color: $downColor;
+  // background-color: aliceblue;
 }
+.upvote:hover {
+  color: $upColor;
+  // background-color: aliceblue;
+}
+
 
 /* SERVE */
 .serve {

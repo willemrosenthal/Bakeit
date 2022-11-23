@@ -15,6 +15,7 @@ const recipeSchema = new Schema({
     type: String
   }],
   creator: {type: String, required: true },
+  creatorID: {type: String, required: true },
   up: {type: Number, defualt: 0},
   down: {type: Number, defualt: 0},
   aggregate: {type: Number, defualt: 0},

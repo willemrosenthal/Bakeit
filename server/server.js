@@ -40,21 +40,21 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // SIGNUP
-app.post('/signup', userController.createUser, sessionController.setSSIDCookie, sessionController.startSession, (req, res)=>{
-  console.log('successfully created user: ', req.body.username);
-  return res.status(200).json({message: 'signup success'});
+app.post('/signup', userController.createUser, sessionController.setSSIDCookie, sessionController.startSession, userController.checkServed, (req, res)=>{
+  console.log('successfully created user: ', req.body.username, ' user served:', res.locals.served );
+  return res.status(200).json({message: 'signup success', served: res.locals.served, userID: res.locals.userID});
 })
 
 // LOGIN
-app.post('/login', userController.verifyUser, sessionController.setSSIDCookie, sessionController.startSession, (req, res)=>{
-  console.log('login success:', req.body);
-  return res.status(200).json({message: 'login success'});
+app.post('/login', userController.verifyUser, sessionController.setSSIDCookie, sessionController.startSession, userController.checkServed, (req, res)=>{
+  console.log('login success:', req.body, ' user served:', res.locals.served );
+  return res.status(200).json({message: 'login success', served: res.locals.served, userID: res.locals.userID});
 })
 
 // GET SESSION
 app.get('/session', sessionController.isLoggedIn, userController.checkServed, (req, res)=>{
   console.log('session found', res.locals.inSession, ' user served:', res.locals.served );
-  return res.status(200).json({session: res.locals.inSession, served: res.locals.served});
+  return res.status(200).json({session: res.locals.inSession, served: res.locals.served, userID: res.locals.userID});
 })
 
 
@@ -86,6 +86,12 @@ app.get('/recipes', recipeController.getAllRecipes, (req, res)=>{
 app.post('/recipes', userController.getCurrentUsername, recipeController.submitRecipe, userController.updateServed, (req, res)=>{
   console.log('recipe submitted');
   return res.status(200).json({accepted: true})
+})
+
+// DELETE RECIPE
+app.delete('/delete/:id', recipeController.deleteRecipe, (req, res)=>{
+  console.log('deleted: ', res.locals.recipe.name);
+  return res.status(200).json({deleted: res.locals.recipe.name}); 
 })
 
 // display site

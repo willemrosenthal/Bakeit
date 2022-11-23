@@ -50,7 +50,14 @@ userController.getCurrentUsername = async (req, res, next) => {
 // check user served
 userController.checkServed = async (req, res, next) => {
   try {
-    const id = req.cookies.ssid;
+    
+    console.log('check if user needs to be served...');
+    const id = req.cookies.ssid ? req.cookies.ssid : res.locals.ssid;
+    console.log('checking served status on: ', id);
+
+    // save user id to output
+    res.locals.userID = id;
+
     const myUsername = await User.findById(id);
     res.locals.served = myUsername.served;
 
@@ -99,6 +106,7 @@ userController.updateServed = async (req, res, next) => {
 
 // verify user
 userController.verifyUser = async (req, res, next) => {
+  console.log('verifying user:', req.body.username);
   const {username, password} = req.body;
   // see if username is in DB
   try {
